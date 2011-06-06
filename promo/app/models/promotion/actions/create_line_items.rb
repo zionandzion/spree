@@ -5,6 +5,10 @@ class Promotion::Actions::CreateLineItems < PromotionAction
   attr_accessor :line_items_string
 
   def perform(options = {})
+    return unless order = options[:order]
+    promotion_action_line_items.each do |item|
+      order.add_variant(item.variant, item.quantity)
+    end
   end
 
   def line_items_string

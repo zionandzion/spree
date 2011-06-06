@@ -1,12 +1,28 @@
 require 'spec_helper'
 
 describe Promotion::Actions::CreateLineItems do
-  let(:order) { Order.new }
+  let(:order) { Factory(:order) }
   let(:promotion) { Promotion.new }
   let(:action) { Promotion::Actions::CreateLineItems.create }
 
   context "#perform" do
     before do
+      @v1 = Factory(:variant)
+      @v2 = Factory(:variant)
+      action.promotion_action_line_items.create!(
+        :variant => @v1,
+        :quantity => 1
+      )
+      action.promotion_action_line_items.create!(
+        :variant => @v2,
+        :quantity => 2
+      )
+    end
+    it "adds line items to order with correct variant and quantity" do
+      action.perform(:order => order)
+      order.line_items.count.should == 2
+      order.line_items.first.variant.should == @v1
+      order.line_items.first.quantity.should == 1
     end
   end
 
