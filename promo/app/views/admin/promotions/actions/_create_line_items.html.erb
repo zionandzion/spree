@@ -1,13 +1,19 @@
-<table>
+<table class="index">
   <tr>
     <th>Product</th>
     <th>Variant</th>
     <th>Quantity</th>
   </tr>
-  <% for promotion_action_line_items in promotion_action.promotion_action_line_items %>
+  <% for item in promotion_action.promotion_action_line_items %>
     <tr>
       <td>
-        <%= debug promotion_action_line_item %>
+        <%= item.variant.product.name %>
+      </td>
+      <td>
+        <%= item.variant.options_text.presence || t("master") %>
+      </td>
+      <td>
+        <%= item.quantity %>
       </td>
     </tr>
   <% end %>
@@ -35,7 +41,7 @@
     </div>
     <div style="float:left;width:j0%">
       &nbsp;<br />
-      <button class="add"> <%= t("add") %></button>
+      <button class="add small"> <%= t("add") %></button>
     </div>
 
   </fieldset>
