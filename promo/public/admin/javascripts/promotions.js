@@ -68,6 +68,19 @@ var initProductActions = function(){
       }
     }
     );
+
+
+    var hideOrShowItemTables = function(){
+      $('.promotion_action table').each(function(){
+        if($(this).find('td').length == 0){
+          $(this).hide();
+        } else {
+          $(this).show();
+        }
+      });
+    };
+    hideOrShowItemTables();
+
     // Remove line item
     var setupRemoveLineItems = function(){
       $(".promotion_action.create_line_items table img").unbind('click').click(function(){
@@ -80,11 +93,12 @@ var initProductActions = function(){
         items.splice(index - 1, 1);
         $hiddenField.val(items.join(','));
         $(this).parents('tr').remove();
+        hideOrShowItemTables();
       });
     };
     setupRemoveLineItems();
     // Add line item to list
-    $(".promotion_action.create_line_items input[type='submit']").click(function(){
+    $(".promotion_action.create_line_items button.add").click(function(){
       var $container = $(this).parents('.promotion_action');
       var product_name = $container.find("input[name='add_product_name']").val();
       var variant_id = $container.find("select[name='add_line_item_variant_id']").val();
@@ -98,6 +112,7 @@ var initProductActions = function(){
         var $hiddenField = $container.find("input[type='hidden']");
         $hiddenField.val($hiddenField.val() + "," + variant_id + "x" + quantity);
         setupRemoveLineItems();
+        hideOrShowItemTables();
       }
       return false;
     });
@@ -110,5 +125,6 @@ $(document).ready(function() {
   initProductRuleSourceField();
   initProductActions();
 });
+
 
 

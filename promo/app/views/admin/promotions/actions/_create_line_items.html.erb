@@ -3,6 +3,7 @@
     <th>Product</th>
     <th>Variant</th>
     <th>Quantity</th>
+    <th>&nbsp;</th>
   </tr>
   <% for item in promotion_action.promotion_action_line_items %>
     <tr>
@@ -14,6 +15,9 @@
       </td>
       <td>
         <%= item.quantity %>
+      </td>
+      <td>
+        <img src='/admin/images/icons/cross.png' />
       </td>
     </tr>
   <% end %>
