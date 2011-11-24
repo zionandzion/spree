@@ -144,6 +144,8 @@ describe Spree::Product do
   # Regression test for #767
   context 'prices are calculated correctly' do
 
+    # 1504.07 + 1504.07 * 0.23 == 1850.0061.
+    # This amount *should* be show as 1850.00 rather than 1850.01.
     let!(:product) { Factory(:product, :price => 1504.07) }
     let!(:tax_category) { stub_model(Spree::TaxCategory, :effective_amount => BigDecimal.new("0.23", 2)) }
 
