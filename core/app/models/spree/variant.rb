@@ -89,6 +89,12 @@ module Spree
       deleted_at
     end
 
+    def price_including_vat
+      amount = self.price
+      amount += Calculator::Vat.calculate_tax_on(self) if Spree::Config[:show_price_inc_vat]
+      amount
+    end
+
     private
       # Ensures a new variant takes the product master price when price is not supplied
       def check_price
