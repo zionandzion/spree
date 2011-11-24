@@ -139,7 +139,26 @@ describe Spree::Product do
       product.stub :tax_category => nil
       product.effective_tax_rate.should == Spree::TaxRate.default
     end
+  end
 
+  # Regression test for #767
+  context 'prices are calculated correctly' do
+
+    let!(:product) { Factory(:product, :price => 1504.07) }
+    let!(:tax_category) { stub_model(Spree::TaxCategory, :effective_amount => BigDecimal.new("0.23", 2)) }
+
+    before do
+      Spree::Config.set :show_price_inc_vat => true
+
+      # Because tax_category method is redefined in Product model
+      Spree::TaxCategory.stub(:find).and_return(tax_category)
+      product.tax_category = tax_category
+      product.save!
+    end
+
+    it 'price_including_vat' do
+      product.price_including_vat.should == 1850.00
+    end
   end
 
 end

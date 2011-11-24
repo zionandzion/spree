@@ -7,7 +7,7 @@ module Spree
     def self.calculate_tax_on(taxable)
       # taxable may be product or variant
       taxable = taxable.product if taxable.respond_to?(:product)
-      (taxable.price * taxable.effective_tax_rate).round(2, BigDecimal::ROUND_HALF_UP)
+      (taxable.price * taxable.effective_tax_rate).round(2, BigDecimal::ROUND_FLOOR)
     end
 
     # computes vat for line_items associated with order, and tax rate and
