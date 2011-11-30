@@ -64,7 +64,7 @@ describe "Customer Details" do
   end
 
   it "should show validation errors" do
-    p order.ship_address
+    click_link "Customer Details"
     click_button "Continue"
     page.should have_content("Shipping address first name can't be blank")
   end
